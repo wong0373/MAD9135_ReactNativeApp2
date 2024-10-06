@@ -31,33 +31,31 @@ export default function App() {
       });
   }, []);
 
-  const onRefresh = useCallback(() => {
+  const onRefresh = useCallback(async () => {
     setRefreshing(true);
 
-    setTimeout(() => {
-      axios
-        .get("https://random-data-api.com/api/users/random_user?size=10")
-        .then((response) => {
-          setUsers(response.data);
-          Toast.show({
-            type: "info",
-            text1: "Refreshed",
-            text2: "Refreshed to generate random 10 users successfully 👋",
-            position: "bottom",
-            visibilityTime: 1000,
-          });
-        })
-        .catch((err) => {
-          Toast.show({
-            type: "error",
-            text1: "Fail",
-            text2: "Fail to refresh the user list 😢",
-            position: "bottom",
-            visibilityTime: 1000,
-          });
-        });
-      setRefreshing(false);
-    }, 1000);
+    try {
+      const response = await axios.get(
+        "https://random-data-api.com/api/users/random_user?size=10"
+      );
+      setUsers(response.data);
+      Toast.show({
+        type: "info",
+        text1: "Refreshed",
+        text2: "Refreshed to generate random 10 users successfully 👋",
+        position: "bottom",
+        visibilityTime: 1000,
+      });
+    } catch (err) {
+      Toast.show({
+        type: "error",
+        text1: "Fail",
+        text2: "Fail to refresh the user list 😢",
+        position: "bottom",
+        visibilityTime: 1000,
+      });
+    }
+    setRefreshing(false);
   }, []);
 
   const addUser = async () => {
