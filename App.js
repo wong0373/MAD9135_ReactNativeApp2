@@ -39,9 +39,22 @@ export default function App() {
         .get("https://random-data-api.com/api/users/random_user?size=10")
         .then((response) => {
           setUsers(response.data);
+          Toast.show({
+            type: "info",
+            text1: "Refreshed",
+            text2: "Refreshed to generate random 10 users successfully 👋",
+            position: "bottom",
+            visibilityTime: 1000,
+          });
         })
         .catch((err) => {
-          console.error("Error fetching data");
+          Toast.show({
+            type: "error",
+            text1: "Fail",
+            text2: "Fail to refresh the user list 😢",
+            position: "bottom",
+            visibilityTime: 1000,
+          });
         });
       setRefreshing(false);
     }, 1000);
@@ -78,16 +91,7 @@ export default function App() {
   };
 
   const renderItem = ({ item }) => (
-    <View
-      style={{
-        justifyContent: "space-between",
-        flexDirection: Platform.OS === "android" ? "row" : "row-reverse",
-        borderBottomColor: "grey",
-        borderBottomWidth: 1,
-        padding: 10,
-      }}
-      key={item.uid}
-    >
+    <View style={styles.itemContainer}>
       <UserAvatar
         size={50}
         src={item.avatar}
@@ -121,13 +125,13 @@ export default function App() {
       />
 
       <View>
-        <Text style={styles.first_name}>{item.first_name}</Text>
-        <Text style={styles.last_name}>{item.last_name}</Text>
+        <Text style={styles.firstName}>{item.first_name}</Text>
+        <Text style={styles.lastName}>{item.last_name}</Text>
       </View>
     </View>
   );
 
-  const keyExtractor = (item) => item.id.toString();
+  const keyExtractor = (item) => item.uid.toString();
 
   return (
     <SafeAreaProvider style={styles.container}>
@@ -159,17 +163,24 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     paddingHorizontal: 36,
   },
-  users: {
-    padding: 16,
-    paddingBottom: 8,
+  itemContainer: {
+    justifyContent: "space-between",
+    flexDirection: Platform.OS === "android" ? "row" : "row-reverse",
+    borderBottomColor: "grey",
+    borderBottomWidth: 1,
+    padding: 10,
   },
-  first_name: {
+  users: {
+    paddingBottom: 8,
+    paddingHorizontal: 8,
+  },
+  firstName: {
     fontSize: 16,
     fontWeight: "bold",
     marginBottom: 8,
     textAlign: Platform.OS === "ios" ? "left" : "right",
   },
-  last_name: {
+  lastName: {
     fontSize: 14,
     color: "#888",
     marginBottom: 4,
