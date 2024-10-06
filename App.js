@@ -93,6 +93,9 @@ export default function App() {
         src={item.avatar}
         bgColor={
           [
+            "#ccc",
+            "#fafafa",
+            "#ccaabb",
             "#FF0000",
             "#0000FF",
             "#008000",
@@ -113,7 +116,7 @@ export default function App() {
             "#808000",
             "#000080",
             "#FF7F50",
-          ][Math.floor(Math.random() * 20)]
+          ][Math.floor(Math.random() * 23)]
         }
       />
 
@@ -140,7 +143,7 @@ export default function App() {
             <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
           }
         />
-        <Toast key="toast message" />
+        <Toast />
         {/* Floating Action Button */}
         <TouchableOpacity style={styles.fab} onPress={addUser}>
           <MaterialIcons name="add" size={24} color="white" />
